@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace OrchardCore.RelationDb.Controllers
+namespace OrchardCore.RelationalDb.Controllers
 {
     public class HomeController : Controller
     {

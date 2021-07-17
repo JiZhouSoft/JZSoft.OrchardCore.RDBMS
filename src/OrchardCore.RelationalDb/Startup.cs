@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using OrchardCore.Modules;
 
-namespace OrchardCore.RelationDb
+namespace OrchardCore.RelationalDb
 {
     public class Startup : StartupBase
     {
@@ -17,7 +17,7 @@ namespace OrchardCore.RelationDb
         {
             routes.MapAreaControllerRoute(
                 name: "Home",
-                areaName: "OrchardCore.RelationDb",
+                areaName: "OrchardCore.RelationalDb",
                 pattern: "Home/Index",
                 defaults: new { controller = "Home", action = "Index" }
             );
