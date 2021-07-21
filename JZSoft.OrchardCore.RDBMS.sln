@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31213.239
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{9AF4BDBD-CBAC-4F27-BAD7-E1A6FE393A56}"
+	ProjectSection(SolutionItems) = preProject
+		NuGet.config = NuGet.config
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JZSoft.OrchardCore.RDBMS", "src\JZSoft.OrchardCore.RDBMS\JZSoft.OrchardCore.RDBMS.csproj", "{80761EFE-B62D-4CD2-A3D0-263880F1F72D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrchardCore.Cms.Web", "src\OrchardCore.Cms.Web\OrchardCore.Cms.Web.csproj", "{9D2A5E6A-133D-4C70-A337-4D59E541A4AB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{80761EFE-B62D-4CD2-A3D0-263880F1F72D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80761EFE-B62D-4CD2-A3D0-263880F1F72D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80761EFE-B62D-4CD2-A3D0-263880F1F72D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80761EFE-B62D-4CD2-A3D0-263880F1F72D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D2A5E6A-133D-4C70-A337-4D59E541A4AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D2A5E6A-133D-4C70-A337-4D59E541A4AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D2A5E6A-133D-4C70-A337-4D59E541A4AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D2A5E6A-133D-4C70-A337-4D59E541A4AB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {59AC3010-A6C0-4E54-9806-D2A45D57EE6E}
+	EndGlobalSection
+EndGlobal

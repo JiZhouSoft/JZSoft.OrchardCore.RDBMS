@@ -1,10 +1,10 @@
 using OrchardCore.Modules.Manifest;
 
 [assembly: Module(
-    Name = "OrchardCore.RelationalDb",
-    Author = "The Orchard Core Team",
+    Name = "JZSoft.OrchardCore.RDBMS",
+    Author = "The JiZhouSoft Team",
     Website = "https://orchardcore.net",
     Version = "0.0.1",
-    Description = "OrchardCore.RelationalDb",
+    Description = "JZSoft.OrchardCore.RDBMS",
     Category = "Content Management"
 )]

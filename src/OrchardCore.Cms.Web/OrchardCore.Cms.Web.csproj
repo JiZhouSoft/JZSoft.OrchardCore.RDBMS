@@ -1,9 +1,6 @@
-<Project ToolsVersion="15.0" Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project ToolsVersion="15.0" Sdk="Microsoft.NET.Sdk.Web">
 
-  <Import Project="..\..\..\OrchardCore\src\OrchardCore.Build\Dependencies.props" />
-
-  <!-- Necessary as we reference the Project and not the Package -->
-  <Import Project="..\..\..\OrchardCore\src\OrchardCore\OrchardCore.Application.Cms.Core.Targets\OrchardCore.Application.Cms.Core.Targets.props" />
+ 
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -18,15 +15,15 @@
     <Folder Include="Localization\" />
   </ItemGroup>
 
-  <ItemGroup> 
-    <ProjectReference Include="..\..\..\OrchardCore\src\OrchardCore\OrchardCore.Application.Cms.Targets\OrchardCore.Application.Cms.Targets.csproj" />
-    <ProjectReference Include="..\..\..\OrchardCore\src\OrchardCore\OrchardCore.Logging.NLog\OrchardCore.Logging.NLog.csproj" />
+  <ItemGroup>
+    <PackageReference Include="OrchardCore.Application.Cms.Targets" Version="1.0.0-rc2-16379" />
+    <PackageReference Include="OrchardCore.Logging.NLog" Version="1.0.0-rc2-16379" />
+    <PackageReference Include="OrchardCore.Application.Cms.Core.Targets" Version="1.0.0-rc2-16379" />
+    <PackageReference Include="OrchardCore.DisplayManagement" Version="1.0.0-rc2-16379" />
+
   </ItemGroup>
 
-  <!-- Necessary as we reference the Project and not the Package -->
-  <Import Project="..\..\..\OrchardCore\src\OrchardCore\OrchardCore.Application.Cms.Core.Targets\OrchardCore.Application.Cms.Core.Targets.targets" />
-  <Import Project="..\..\..\OrchardCore\src\OrchardCore\OrchardCore.Application.Targets\OrchardCore.Application.Targets.targets" />
-
-  <Import Project="..\..\..\OrchardCore\src\OrchardCore.Build\OrchardCore.Commons.targets" />
-
+  <ItemGroup>
+    <ProjectReference Include="..\JZSoft.OrchardCore.RDBMS\JZSoft.OrchardCore.RDBMS.csproj" />
+  </ItemGroup>
 </Project>

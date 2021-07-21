@@ -1,0 +1,60 @@
+﻿@model GenerateStartModel
+<style asp-name="codemirror"></style>
+<script asp-name="codemirror" depends-on="admin" at="Foot"></script>
+<script asp-name="codemirror-addon-display-autorefresh" at="Foot"></script>
+<script asp-name="codemirror-mode-javascript" at="Foot"></script>
+<zone Name="Title"><h1>@RenderTitleSegments(T["Mapping to relational database"])</h1></zone>
+
+<form asp-action="Index" method="post" class="no-multisubmit">
+    <div class="form-group" id="actions">
+        <label>@T["All Types "]</label>
+        <select name="selectedType" id="selectedType">
+            @foreach (var item in Model.AllTypes)
+            {
+                <option value="@item.Value"> @item.Text</option>
+            }
+        </select>
+        <input type="button" value="@T["Get"]" id="btnGet" />
+    </div>
+    <div class="form-group" id="actions">
+        <label>@T["Type Mapping Result"]</label><br />
+        <textarea id="mappingConfig" rows="12" class="form-control"></textarea>
+
+    </div>
+</form>
+
+
+
+
+<script at="Foot">
+    $(function () {
+
+        var editor = CodeMirror.fromTextArea(document.getElementById('mappingConfig'), {
+            autoRefresh: true,
+            lineNumbers: true,
+            styleActiveLine: true,
+            matchBrackets: true,
+            mode: { name: "javascript" },
+        });
+
+        $("#btnGet").click(function (val) {
+            var url = "GetFileds";
+            $.ajax({
+                url: url,
+                method: 'GET',
+                data: {
+                    typeName: $("#selectedType").val()
+                },
+                success: function (data) {
+                    console.log(data);
+                    editor.setValue(data);
+                },
+                error: function (error) {
+                    alert($('#move-error-message').data("message"));
+                }
+            });
+        })
+
+
+    });
+</script>

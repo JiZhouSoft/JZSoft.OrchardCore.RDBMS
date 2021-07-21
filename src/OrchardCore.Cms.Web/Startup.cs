@@ -10,11 +10,7 @@ namespace OrchardCore.Cms.Web
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddOrchardCms().ConfigureServices(
-                tenantServices => {
-                    tenantServices.PostConfigure<ResourceManagementOptions>(o => o.UseCdn = false);
-                }
-            );
+            services.AddOrchardCms();
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireDigit = false;

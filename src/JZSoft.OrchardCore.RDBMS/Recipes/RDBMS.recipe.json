@@ -1,0 +1,148 @@
+{
+  "name": "RDBMS",
+  "displayName": "RDBMS init",
+  "description": "",
+  "author": "JiZhouSoft",
+  "website": "jizhousoft.com",
+  "version": "",
+  "issetuprecipe": false,
+  "categories": [],
+  "tags": [],
+  "steps": [
+    {
+      "name": "ContentDefinition",
+      "ContentTypes": [
+        {
+          "Name": "RelationalDbMapping",
+          "DisplayName": "RDBMS Mapping Config",
+          "Settings": {
+            "ContentTypeSettings": {
+              "Creatable": true,
+              "Listable": true,
+              "Draftable": true,
+              "Versionable": true,
+              "Securable": true
+            },
+            "FullTextAspectSettings": {}
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "RelationalDbMapping",
+              "Name": "RelationalDbMapping",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "1"
+                }
+              }
+            },
+            {
+              "PartName": "TitlePart",
+              "Name": "TitlePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "DbConnectionConfig",
+          "DisplayName": "DbConnectionConfig",
+          "Settings": {
+            "ContentTypeSettings": {
+              "Creatable": true,
+              "Listable": true,
+              "Draftable": true,
+              "Versionable": true,
+              "Securable": true
+            }
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "DbConnectionConfig",
+              "Name": "DbConnectionConfig",
+              "Settings": {}
+            }
+          ]
+        }
+      ],
+      "ContentParts": [
+        {
+          "Name": "TitlePart",
+          "Settings": {
+            "ContentPartSettings": {
+              "Attachable": true,
+              "Description": "Provides a Title for your content item.",
+              "DefaultPosition": "0"
+            }
+          },
+          "ContentPartFieldDefinitionRecords": []
+        },
+        {
+          "Name": "RelationalDbMapping",
+          "Settings": {},
+          "ContentPartFieldDefinitionRecords": [
+            {
+              "FieldName": "TextField",
+              "Name": "TableName",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "TableName",
+                  "Position": "0"
+                }
+              }
+            },
+            {
+              "FieldName": "TextField",
+              "Name": "ContentTypeName",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "ContentTypeName",
+                  "Position": "1"
+                }
+              }
+            },
+            {
+              "FieldName": "TextField",
+              "Name": "MappingData",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "MappingData",
+                  "Editor": "CodeMirror",
+                  "Position": "2"
+                },
+                "TextFieldSettings": {},
+                "ContentIndexSettings": {}
+              }
+            }
+          ]
+        },
+        {
+          "Name": "DbConnectionConfig",
+          "Settings": {},
+          "ContentPartFieldDefinitionRecords": [
+            {
+              "FieldName": "TextField",
+              "Name": "ProviderName",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "ProviderName"
+                }
+              }
+            },
+            {
+              "FieldName": "TextField",
+              "Name": "ConnectionString",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "ConnectionString"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
