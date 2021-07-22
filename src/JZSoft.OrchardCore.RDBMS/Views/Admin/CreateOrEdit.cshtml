@@ -1,60 +1,111 @@
-﻿@model GenerateStartModel
+﻿@model RDBMSMappingConfigModel
 <style asp-name="codemirror"></style>
 <script asp-name="codemirror" depends-on="admin" at="Foot"></script>
 <script asp-name="codemirror-addon-display-autorefresh" at="Foot"></script>
 <script asp-name="codemirror-mode-javascript" at="Foot"></script>
+<script asp-name="codemirror-mode-sql" at="Foot"></script>
+<script asp-name="codemirror-addon-hint-sql-hint" at="Foot"></script>
+<script asp-name="vuejs" at="Foot"></script>
+
 <zone Name="Title"><h1>@RenderTitleSegments(T["Mapping to relational database"])</h1></zone>
 
-<form asp-action="Index" method="post" class="no-multisubmit">
-    <div class="form-group" id="actions">
-        <label>@T["All Types "]</label>
-        <select name="selectedType" id="selectedType">
-            @foreach (var item in Model.AllTypes)
-            {
-                <option value="@item.Value"> @item.Text</option>
-            }
-        </select>
-        <input type="button" value="@T["Get"]" id="btnGet" />
-    </div>
-    <div class="form-group" id="actions">
-        <label>@T["Type Mapping Result"]</label><br />
-        <textarea id="mappingConfig" rows="12" class="form-control"></textarea>
+<form asp-action="CreateOrEdit" method="post" class="no-multisubmit">
+	<div class="form-group col-md-4" asp-validation-class-for="ContentTypeName">
+		<label asp-for="ContentTypeName">@T["Content Type"]</label>
+		<select asp-for="ContentTypeName" asp-items="Model.AllContentTypes" class="form-control">
+		</select>
 
-    </div>
+		<span class="hint">@T["Select a content type."]</span>
+	</div>
+	<div class="row">
+		<div class="form-group col-md-2" asp-validation-class-for="ContentTypeName">
+
+			<label asp-for="ConnectionConfigId">@T["Connection Config"]</label>
+			<select asp-for="ConnectionConfigId" asp-items="Model.AllDbProviders" class="form-control"> </select>
+			<span class="hint">@T["Select a database connection config."]</span>
+		</div>
+		<div class="form-group col-md-2" asp-validation-class-for="DbObjectType">
+			<label asp-for="DbObjectType">@T["RDBMS ObjectType"]</label>
+			<select asp-for="DbObjectType" class="form-control">
+				<option value="Table">Table</option>
+				<option value="View">View</option>
+				<option value="SQLCommand">SQLCommand</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label asp-for="TargetTable">@T["Target Table Name"]</label>
+		<input type="text" asp-for="TargetTable" class="form-control" />
+	</div>
+
+	<div class="form-group">
+		<button class="btn btn-success" type="button"  id="btnGet" >@T["Generate"]</button>
+	</div>
+
+	<div class="form-group" id="actions">
+		<label>@T["Type Mapping Result"]</label><br />
+		<textarea asp-for="MappingData" rows="12" class="form-control"></textarea>
+
+	</div>	
+	<div class="form-group" id="actions">
+		<button type="submit" class="btn btn-primary">@T["Submit"]</button>
+	</div>
 </form>
 
 
 
 
 <script at="Foot">
-    $(function () {
+	var sqlEditor;
+		$(function () {
 
-        var editor = CodeMirror.fromTextArea(document.getElementById('mappingConfig'), {
-            autoRefresh: true,
-            lineNumbers: true,
-            styleActiveLine: true,
-            matchBrackets: true,
-            mode: { name: "javascript" },
-        });
+			var editor = CodeMirror.fromTextArea(document.getElementById('@Html.IdFor(x => x.MappingData)'), {
+				autoRefresh: true,
+				lineNumbers: true,
+				styleActiveLine: true,
+				matchBrackets: true,
+				mode: { name: "javascript" },
+			});
 
-        $("#btnGet").click(function (val) {
-            var url = "GetFileds";
-            $.ajax({
-                url: url,
-                method: 'GET',
-                data: {
-                    typeName: $("#selectedType").val()
-                },
-                success: function (data) {
-                    console.log(data);
-                    editor.setValue(data);
-                },
-                error: function (error) {
-                    alert($('#move-error-message').data("message"));
-                }
-            });
-        })
+			$("#DbObjectType").change(function(){
+				if($(this).val()=="SQLCommand"){
+					sqlEditor = CodeMirror.fromTextArea(document.getElementById('@Html.IdFor(x => x.TargetTable)'), {
+						autoRefresh: true,
+						lineNumbers: true,
+						styleActiveLine: true,
+						matchBrackets: true,
+						mode: { name: "sql" },
+					});
+					sqlEditor.autoRefresh()
+				}else{
+					if(sqlEditor)
+					sqlEditor.toTextArea()
+				}
+			})
 
 
-    });
+
+
+
+			$("#btnGet").click(function (val) {
+				var url = "@Url.Action("GenerateMappingData","Admin")";
+				$.ajax({
+					url: url,
+					method: 'GET',
+					data: {
+						typeName: $("#@Html.IdFor(x => x.ContentTypeName)").val()
+					},
+					success: function (data) {
+						console.log(data);
+						editor.setValue(data);
+					},
+					error: function (error) {
+						alert($('#move-error-message').data("message"));
+					}
+				});
+			})
+
+
+		});
 </script>

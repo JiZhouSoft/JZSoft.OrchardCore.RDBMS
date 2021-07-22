@@ -5,7 +5,7 @@
   "author": "JiZhouSoft",
   "website": "jizhousoft.com",
   "version": "",
-  "issetuprecipe": true,
+  "issetuprecipe": false,
   "categories": [],
   "tags": [],
   "steps": [
@@ -13,7 +13,7 @@
       "name": "ContentDefinition",
       "ContentTypes": [
         {
-          "Name": "RelationalDbMapping",
+          "Name": "RDBMSMappingConfig",
           "DisplayName": "RDBMS Mapping Config",
           "Settings": {
             "ContentTypeSettings": {
@@ -27,8 +27,8 @@
           },
           "ContentTypePartDefinitionRecords": [
             {
-              "PartName": "RelationalDbMapping",
-              "Name": "RelationalDbMapping",
+              "PartName": "RDBMSMappingConfig",
+              "Name": "RDBMSMappingConfig",
               "Settings": {
                 "ContentTypePartSettings": {
                   "Position": "1"
@@ -56,13 +56,18 @@
               "Draftable": true,
               "Versionable": true,
               "Securable": true
-            }
+            },
+            "FullTextAspectSettings": {}
           },
           "ContentTypePartDefinitionRecords": [
             {
               "PartName": "DbConnectionConfig",
               "Name": "DbConnectionConfig",
-              "Settings": {}
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
             }
           ]
         }
@@ -80,15 +85,15 @@
           "ContentPartFieldDefinitionRecords": []
         },
         {
-          "Name": "RelationalDbMapping",
+          "Name": "RDBMSMappingConfig",
           "Settings": {},
           "ContentPartFieldDefinitionRecords": [
             {
               "FieldName": "TextField",
-              "Name": "TableName",
+              "Name": "TargetTable",
               "Settings": {
                 "ContentPartFieldSettings": {
-                  "DisplayName": "TableName",
+                  "DisplayName": "Target Table",
                   "Position": "0"
                 }
               }
@@ -115,6 +120,63 @@
                 "TextFieldSettings": {},
                 "ContentIndexSettings": {}
               }
+            },
+            {
+              "FieldName": "TextField",
+              "Name": "DbObjectType",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "RDBMS Object Type",
+                  "Editor": "PredefinedList",
+                  "Position": "3"
+                },
+                "TextFieldSettings": {},
+                "TextFieldPredefinedListEditorSettings": {
+                  "Options": [
+                    {
+                      "name": "Table",
+                      "value": "Table"
+                    },
+                    {
+                      "name": "View",
+                      "value": "View"
+                    },
+                    {
+                      "name": "SQLCommand",
+                      "value": "SQLCommand"
+                    }
+                  ],
+                  "Editor": 1,
+                  "DefaultValue": "Table"
+                },
+                "ContentIndexSettings": {}
+              }
+            },
+            {
+              "FieldName": "BooleanField",
+              "Name": "EnableAutoSync",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Enable Auto Sync",
+                  "Editor": "Switch",
+                  "Position": "4"
+                },
+                "BooleanFieldSettings": {},
+                "ContentIndexSettings": {}
+              }
+            },
+            {
+              "FieldName": "BooleanField",
+              "Name": "ReadOnly",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Read Only",
+                  "Editor": "Switch",
+                  "Position": "5"
+                },
+                "BooleanFieldSettings": {},
+                "ContentIndexSettings": {}
+              }
             }
           ]
         },
@@ -124,11 +186,36 @@
           "ContentPartFieldDefinitionRecords": [
             {
               "FieldName": "TextField",
-              "Name": "ProviderName",
+              "Name": "DatabaseProvider",
               "Settings": {
                 "ContentPartFieldSettings": {
-                  "DisplayName": "ProviderName"
-                }
+                  "DisplayName": "Database Provider",
+                  "Editor": "PredefinedList",
+                  "Position": "0"
+                },
+                "TextFieldSettings": {},
+                "TextFieldPredefinedListEditorSettings": {
+                  "Options": [
+                    {
+                      "name": "SqlConnection",
+                      "value": "SqlConnection"
+                    },
+                    {
+                      "name": "Sqlite",
+                      "value": "Sqlite"
+                    },
+                    {
+                      "name": "MySql",
+                      "value": "MySql"
+                    },
+                    {
+                      "name": "Postgres",
+                      "value": "Postgres"
+                    }
+                  ],
+                  "Editor": 1
+                },
+                "ContentIndexSettings": {}
               }
             },
             {
@@ -136,7 +223,8 @@
               "Name": "ConnectionString",
               "Settings": {
                 "ContentPartFieldSettings": {
-                  "DisplayName": "ConnectionString"
+                  "DisplayName": "ConnectionString",
+                  "Position": "1"
                 }
               }
             }
