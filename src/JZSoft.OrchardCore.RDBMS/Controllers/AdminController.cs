@@ -60,17 +60,31 @@ namespace OrchardCore.RelationDb.Controllers
             _contentFieldsValuePathProvider = contentFieldsValuePathProvider;
         }
 
-        public IActionResult CreateOrEdit()
+        public IActionResult CreateOrEditPost(RDBMSMappingConfigModel model)
+        {
+            return View(model);
+        }
+
+        public async Task<IActionResult> CreateOrEditAsync()
         {
             // 1.拿到所有类型
             var allTypes = _contentDefinitionManager.ListTypeDefinitions();
-            var items = allTypes.Select(x => new SelectListItem() { Text = S[x.DisplayName], Value = x.Name }).ToList();
-            var model = new GenerateStartModel
+            var contentTypeslist = allTypes.Select(x => new SelectListItem() { Text = S[x.DisplayName], Value = x.Name }).ToList();
+
+            var connectionSettings = await _session.Query<ContentItem, ContentItemIndex>()
+                                            .Where(x => x.ContentType == "DbConnectionConfig" && (x.Published || x.Latest)).ListAsync();
+            var connectionList = connectionSettings.Select(x => new SelectListItem() { Text = S[x.DisplayText], Value = x.ContentItemId }).ToList();
+
+            var model = new RDBMSMappingConfigModel
             {
-                AllTypes = items
+                AllContentTypes = contentTypeslist,
+                AllDbProviders = connectionList
             };
+
+
             return View(model);
         }
+
 
         /// <summary>
         /// Get
@@ -97,10 +111,9 @@ namespace OrchardCore.RelationDb.Controllers
 
 
 
-        public IActionResult GetFileds(string typeName)
+        public IActionResult GenerateMappingData(string typeName)
         {
             var type = _contentDefinitionManager.LoadTypeDefinition(typeName);
-
 
             var part = type.Parts.FirstOrDefault(x => x.Name == type.Name);
             var partName = part.Name;
@@ -118,7 +131,7 @@ namespace OrchardCore.RelationDb.Controllers
                         mapToTableFiled = field.Name
                     });
                 }
-            } 
+            }
             return Json(JArray.FromObject(partFileds).ToString());
 
         }
