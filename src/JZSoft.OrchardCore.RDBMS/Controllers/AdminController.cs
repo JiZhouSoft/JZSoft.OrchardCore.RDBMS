@@ -60,29 +60,47 @@ namespace OrchardCore.RelationDb.Controllers
             _contentFieldsValuePathProvider = contentFieldsValuePathProvider;
         }
 
-        public IActionResult CreateOrEditPost(RDBMSMappingConfigModel model)
+        [ActionName("CreateOrEditAsync")]
+        public async Task<IActionResult> CreateOrEditPost(RDBMSMappingConfigViewModel model)
         {
+            ContentItem contentItem;
+            if (string.IsNullOrEmpty(model.ConnectionConfigId))
+            {
+                contentItem = await _contentManager.NewAsync("RDBMSMappingConfig");
+            }
+            else
+            {
+                contentItem = await _contentManager.GetAsync(model.ConnectionConfigId);
+            }
+            var dbEntity = contentItem.As<RDBMSMappingConfigModel>();
+
+            //     var contentItem = new ContentItem()
+            //     {
+            //         ContentType = "RDBMSMappingConfig",
+            //         DisplayText=model.ConfigName, 
+            // };
             return View(model);
         }
 
-        public async Task<IActionResult> CreateOrEditAsync()
+        public   IActionResult CreateOrEdit()
         {
-            // 1.拿到所有类型
-            var allTypes = _contentDefinitionManager.ListTypeDefinitions();
-            var contentTypeslist = allTypes.Select(x => new SelectListItem() { Text = S[x.DisplayName], Value = x.Name }).ToList();
-
-            var connectionSettings = await _session.Query<ContentItem, ContentItemIndex>()
-                                            .Where(x => x.ContentType == "DbConnectionConfig" && (x.Published || x.Latest)).ListAsync();
-            var connectionList = connectionSettings.Select(x => new SelectListItem() { Text = S[x.DisplayText], Value = x.ContentItemId }).ToList();
-
-            var model = new RDBMSMappingConfigModel
-            {
-                AllContentTypes = contentTypeslist,
-                AllDbProviders = connectionList
-            };
-
-
+            var model = new RDBMSMappingConfigViewModel();
             return View(model);
+        }
+
+        public async Task<IEnumerable<SelectListItem>> GetAllDbConnecton()
+        {
+            var connectionSettings = await _session.Query<ContentItem, ContentItemIndex>()
+                                           .Where(x => x.ContentType == "DbConnectionConfig" && (x.Published || x.Latest)).ListAsync();
+            var connectionList = connectionSettings.Select(x => new SelectListItem() { Text = S[x.DisplayText], Value = x.ContentItemId });
+            return connectionList;
+        }
+
+        public    IEnumerable<SelectListItem> GetAllTypes()
+        {
+            var allTypes = _contentDefinitionManager.ListTypeDefinitions();
+            var contentTypeslist = allTypes.Select(x => new SelectListItem() { Text = S[x.DisplayName], Value = x.Name });
+            return contentTypeslist;
         }
 
 
@@ -127,8 +145,9 @@ namespace OrchardCore.RelationDb.Controllers
                     partFileds.Add(new
                     {
                         name = field.Name,
-                        ocPath = $"{type.Name}.{field.Name}.{fieldType.ValuePath}",
-                        mapToTableFiled = field.Name
+                        ocFieldType= field.FieldDefinition.Name,
+                        valuePath = $"{type.Name}.{field.Name}.{fieldType.ValuePath}",
+                        dbField = field.Name
                     });
                 }
             }

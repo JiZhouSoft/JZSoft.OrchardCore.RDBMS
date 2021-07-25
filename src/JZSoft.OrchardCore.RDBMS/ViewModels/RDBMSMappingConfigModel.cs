@@ -7,30 +7,20 @@ using System.Threading.Tasks;
 
 namespace JZSoft.OrchardCore.RDBMS.ViewModels
 {
-    public class RDBMSMappingConfigModel
+    public class RDBMSMappingConfigViewModel
     {
         public string ConfigName { get; set; }
         public string ContentTypeName { get; set; }
-
+        public SyncMappingDeriction SyncMappingDeriction { get; set; }
         public string ConnectionConfigId { get; set; }
         public string TargetTable { get; set; }
         public DbObjectType DbObjectType { get; set; }
-
         public string MappingData { get; set; }
 
         public bool ReadOnly { get; set; }
 
-        public bool EnableAutoSync { get; set; }
-
-        public List<SelectListItem> AllContentTypes { get; set; }
-        public List<SelectListItem> AllDbProviders { get; set; }
+        public bool EnableAutoSync { get; set; } 
 
     }
 
-    public enum DbObjectType
-    {
-        Table,
-        View,
-        SQLCommand
-    }
 }

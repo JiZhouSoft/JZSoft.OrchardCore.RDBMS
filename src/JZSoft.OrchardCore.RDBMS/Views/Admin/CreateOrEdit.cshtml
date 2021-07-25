@@ -1,4 +1,5 @@
-﻿@model RDBMSMappingConfigModel
+﻿@model RDBMSMappingConfigViewModel
+@inject OrchardCore.ContentManagement.Metadata.IContentDefinitionManager _contentDefinitionManager;
 <style asp-name="codemirror"></style>
 <script asp-name="codemirror" depends-on="admin" at="Foot"></script>
 <script asp-name="codemirror-addon-display-autorefresh" at="Foot"></script>
@@ -7,24 +8,42 @@
 <script asp-name="codemirror-addon-hint-sql-hint" at="Foot"></script>
 <script asp-name="vuejs" at="Foot"></script>
 
-<zone Name="Title"><h1>@RenderTitleSegments(T["Mapping to relational database"])</h1></zone>
+<zone Name="Title">
+	<h1>@RenderTitleSegments(T["Mapping to relational database"])</h1>
+</zone>
 
 <form asp-action="CreateOrEdit" method="post" class="no-multisubmit">
-	<div class="form-group col-md-4" asp-validation-class-for="ContentTypeName">
-		<label asp-for="ContentTypeName">@T["Content Type"]</label>
-		<select asp-for="ContentTypeName" asp-items="Model.AllContentTypes" class="form-control">
-		</select>
-
-		<span class="hint">@T["Select a content type."]</span>
-	</div>
 	<div class="row">
-		<div class="form-group col-md-2" asp-validation-class-for="ContentTypeName">
+		<div class="form-group col-md-4" asp-validation-class-for="ConfigName">
+			<label asp-for="ConfigName">@T["Configuration Name"]</label>
+			<input asp-for="ConfigName" class="form-control" type="text" />
+
+		</div>
+		<div class="form-group col-md-4" asp-validation-class-for="SyncMappingDeriction">
+			<label asp-for="SyncMappingDeriction">@T["Mapping Deriction"]</label>
+			<select asp-for="SyncMappingDeriction" class="form-control">
+				<option value="OrchardCoreToRDBMS">OrchardCore To RDBMS</option>
+				<option value="RDBMSToOrchardCore">RDBMS To OrchardCore</option>
+				<option value="TwoWay">Two Way</option>
+			</select>
+			<span class="hint">@T["Sync mapping deriction."]</span>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="form-group col-md-4" asp-validation-class-for="ContentTypeName">
+			<label asp-for="ContentTypeName">@T["Content Type"]</label>
+			<select asp-for="ContentTypeName" class="form-control">
+			</select>
+			<span class="hint">@T["Select a content type."]</span>
+		</div>
+		<div class="form-group col-md-4" asp-validation-class-for="ContentTypeName">
 
 			<label asp-for="ConnectionConfigId">@T["Connection Config"]</label>
-			<select asp-for="ConnectionConfigId" asp-items="Model.AllDbProviders" class="form-control"> </select>
+			<select asp-for="ConnectionConfigId" class="form-control"> </select>
 			<span class="hint">@T["Select a database connection config."]</span>
 		</div>
-		<div class="form-group col-md-2" asp-validation-class-for="DbObjectType">
+		<div class="form-group col-md-4" asp-validation-class-for="DbObjectType">
 			<label asp-for="DbObjectType">@T["RDBMS ObjectType"]</label>
 			<select asp-for="DbObjectType" class="form-control">
 				<option value="Table">Table</option>
@@ -32,24 +51,23 @@
 				<option value="SQLCommand">SQLCommand</option>
 			</select>
 		</div>
-	</div>
-
+	</div> 
 	<div class="form-group">
-		<label asp-for="TargetTable">@T["Target Table Name"]</label>
+		<label asp-for="TargetTable">@T["Target"]</label>
 		<input type="text" asp-for="TargetTable" class="form-control" />
 	</div>
 
 	<div class="form-group">
-		<button class="btn btn-success" type="button"  id="btnGet" >@T["Generate"]</button>
+		<button class="btn btn-success" type="button" id="btnGet">@T["Generate Mapping"]</button>
 	</div>
 
-	<div class="form-group" id="actions">
+	<div class="form-group">
 		<label>@T["Type Mapping Result"]</label><br />
 		<textarea asp-for="MappingData" rows="12" class="form-control"></textarea>
 
-	</div>	
-	<div class="form-group" id="actions">
-		<button type="submit" class="btn btn-primary">@T["Submit"]</button>
+	</div>
+	<div class="form-group">
+		<button type="submit" id="submit" class="btn btn-primary">@T["Submit"]</button>
 	</div>
 </form>
 
@@ -58,54 +76,78 @@
 
 <script at="Foot">
 	var sqlEditor;
-		$(function () {
+	$(function () {
 
-			var editor = CodeMirror.fromTextArea(document.getElementById('@Html.IdFor(x => x.MappingData)'), {
-				autoRefresh: true,
-				lineNumbers: true,
-				styleActiveLine: true,
-				matchBrackets: true,
-				mode: { name: "javascript" },
-			});
+		$.ajax({
+			url: '@Url.Action("getAllDbConnecton")',
+			method: 'GET',
+			success: (data) => {
+				console.log(data)
+				var select = $("#@Html.IdFor(x=>x.ConnectionConfigId)");
+				select.html('')
+				data.forEach(item => {
+					if (item.text) 
+						select.append(`<option value="${item.value}" >${item.text}</option>`)
+				})
+			}
+		})
+		$.ajax({
+			url: '@Url.Action("getAllTypes")',
+			method: 'GET',
+			success: (data) => {
+				console.log(data)
+				var select = $("#@Html.IdFor(x=>x.ContentTypeName)");
+				select.html('')
+				data.forEach(item => {
+					if (item.text)
+						select.append(`<option value="${item.value}" >${item.text}</option>`)
+				})
+			}
+		})
 
-			$("#DbObjectType").change(function(){
-				if($(this).val()=="SQLCommand"){
-					sqlEditor = CodeMirror.fromTextArea(document.getElementById('@Html.IdFor(x => x.TargetTable)'), {
-						autoRefresh: true,
-						lineNumbers: true,
-						styleActiveLine: true,
-						matchBrackets: true,
-						mode: { name: "sql" },
-					});
-					sqlEditor.autoRefresh()
-				}else{
-					if(sqlEditor)
-					sqlEditor.toTextArea()
-				}
-			})
 
 
-
-
-
-			$("#btnGet").click(function (val) {
-				var url = "@Url.Action("GenerateMappingData","Admin")";
-				$.ajax({
-					url: url,
-					method: 'GET',
-					data: {
-						typeName: $("#@Html.IdFor(x => x.ContentTypeName)").val()
-					},
-					success: function (data) {
-						console.log(data);
-						editor.setValue(data);
-					},
-					error: function (error) {
-						alert($('#move-error-message').data("message"));
-					}
+		$("#DbObjectType").change(function () {
+			if ($(this).val() == "SQLCommand") {
+				sqlEditor = CodeMirror.fromTextArea(document.getElementById('@Html.IdFor(x => x.TargetTable)'), {
+					autoRefresh: true,
+					lineNumbers: true,
+					styleActiveLine: true,
+					matchBrackets: true,
+					mode: { name: "sql" },
 				});
-			})
+				sqlEditor.autoRefresh()
+			} else {
+				if (sqlEditor)
+					sqlEditor.toTextArea()
+			}
+		})
 
-
+		$("#btnGet").click(function (val) {
+			var url = "@Url.Action("GenerateMappingData","Admin")";
+			$.ajax({
+				url: url,
+				method: 'GET',
+				data: {
+					typeName: $("#@Html.IdFor(x => x.ContentTypeName)").val()
+				},
+				success: function (data) {
+					console.log(data);
+					editor.setValue(data);
+				},
+				error: function (error) {
+					alert($('#move-error-message').data("message"));
+				}
+			});
+		})
+		var editor = CodeMirror.fromTextArea(document.getElementById('@Html.IdFor(x => x.MappingData)'), {
+			autoRefresh: true,
+			lineNumbers: true,
+			styleActiveLine: true,
+			matchBrackets: true,
+			mode: { name: "javascript" },
 		});
+
+
+	});
 </script>
