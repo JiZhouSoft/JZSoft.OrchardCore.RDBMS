@@ -25,9 +25,6 @@
     <PackageReference Include="OrchardCore.Navigation.Core" Version="1.0.0-rc2-16379" />
     <PackageReference Include="OrchardCore.Queries.Abstractions" Version="1.0.0-rc2-16379" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
 
 
 </Project>

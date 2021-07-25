@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using YesSql;
+using JZSoft.OrchardCore.RDBMS.Models;
 
 namespace OrchardCore.RelationDb.Controllers
 {
@@ -82,7 +83,7 @@ namespace OrchardCore.RelationDb.Controllers
             return View(model);
         }
 
-        public   IActionResult CreateOrEdit()
+        public IActionResult CreateOrEdit()
         {
             var model = new RDBMSMappingConfigViewModel();
             return View(model);
@@ -96,7 +97,7 @@ namespace OrchardCore.RelationDb.Controllers
             return connectionList;
         }
 
-        public    IEnumerable<SelectListItem> GetAllTypes()
+        public IEnumerable<SelectListItem> GetAllTypes()
         {
             var allTypes = _contentDefinitionManager.ListTypeDefinitions();
             var contentTypeslist = allTypes.Select(x => new SelectListItem() { Text = S[x.DisplayName], Value = x.Name });
@@ -129,8 +130,39 @@ namespace OrchardCore.RelationDb.Controllers
 
 
 
-        public IActionResult GenerateMappingData(string typeName)
+        public IActionResult GenerateMappingDataFromContentType(string typeName)
         {
+            var type = _contentDefinitionManager.LoadTypeDefinition(typeName);
+
+            var part = type.Parts.FirstOrDefault(x => x.Name == type.Name);
+            var partName = part.Name;
+            var partFileds = new List<object>();
+            // This builder only handles parts with fields.
+            foreach (var field in part.PartDefinition.Fields)
+            {
+                var fieldType = _contentFieldsValuePathProvider.GetField(field);
+                if (fieldType != null)
+                {
+                    partFileds.Add(new MappingConfigItem
+                    {
+                        Name = field.Name,
+                        DisplayName = field.Name,
+                        OCFieldType = field.FieldDefinition.Name,
+                        ValuePath = $"{type.Name}.{field.Name}.{fieldType.ValuePath}",
+                        DbField = field.Name
+                    });
+                }
+            }
+            return Json(JArray.FromObject(partFileds).ToString());
+        }
+        public IActionResult GenerateMappingDataFromRDBMS(RDBMSMappingConfigViewModel model)
+        {
+            var store = DbConnectionFactory.GetYessqlStore(new Data.DatabaseProvider
+            {
+               ///UNDONE:
+            }
+            );
+
             var type = _contentDefinitionManager.LoadTypeDefinition(typeName);
 
             var part = type.Parts.FirstOrDefault(x => x.Name == type.Name);
@@ -145,15 +177,14 @@ namespace OrchardCore.RelationDb.Controllers
                     partFileds.Add(new
                     {
                         name = field.Name,
-                        ocFieldType= field.FieldDefinition.Name,
+                        displayName = field.Name,
+                        ocFieldType = field.FieldDefinition.Name,
                         valuePath = $"{type.Name}.{field.Name}.{fieldType.ValuePath}",
                         dbField = field.Name
                     });
                 }
             }
             return Json(JArray.FromObject(partFileds).ToString());
-
         }
-
     }
 }
