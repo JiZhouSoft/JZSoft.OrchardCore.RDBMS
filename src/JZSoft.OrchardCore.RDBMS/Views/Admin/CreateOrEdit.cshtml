@@ -98,6 +98,7 @@
 				console.log(data)
 				var select = $("#@Html.IdFor(x=>x.ContentTypeName)");
 				select.html('')
+				select.append(`<option value="--New ContentType--" >0</option>`)
 				data.forEach(item => {
 					if (item.text)
 						select.append(`<option value="${item.value}" >${item.text}</option>`)

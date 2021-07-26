@@ -82,10 +82,21 @@ namespace OrchardCore.RelationDb.Controllers
             return View(model);
         }
 
-        public   IActionResult CreateOrEdit()
+        public IActionResult CreateOrEdit()
         {
             var model = new RDBMSMappingConfigViewModel();
             return View(model);
+        }
+
+        [HttpPost, HttpGet]
+        public RecipeModel GenerateRecipe(RDBMSMappingConfigModel configModel)
+        {
+            var recipe = new RecipeModel();
+
+
+
+
+            return recipe;
         }
 
         public async Task<IEnumerable<SelectListItem>> GetAllDbConnecton()
@@ -96,7 +107,7 @@ namespace OrchardCore.RelationDb.Controllers
             return connectionList;
         }
 
-        public    IEnumerable<SelectListItem> GetAllTypes()
+        public IEnumerable<SelectListItem> GetAllTypes()
         {
             var allTypes = _contentDefinitionManager.ListTypeDefinitions();
             var contentTypeslist = allTypes.Select(x => new SelectListItem() { Text = S[x.DisplayName], Value = x.Name });
@@ -128,7 +139,6 @@ namespace OrchardCore.RelationDb.Controllers
         }
 
 
-
         public IActionResult GenerateMappingData(string typeName)
         {
             var type = _contentDefinitionManager.LoadTypeDefinition(typeName);
@@ -145,7 +155,7 @@ namespace OrchardCore.RelationDb.Controllers
                     partFileds.Add(new
                     {
                         name = field.Name,
-                        ocFieldType= field.FieldDefinition.Name,
+                        ocFieldType = field.FieldDefinition.Name,
                         valuePath = $"{type.Name}.{field.Name}.{fieldType.ValuePath}",
                         dbField = field.Name
                     });
