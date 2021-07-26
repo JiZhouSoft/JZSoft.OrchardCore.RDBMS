@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentFields.Fields;
 
-namespace JZSoft.OrchardCore.RDBMS.ViewModels
+namespace JZSoft.OrchardCore.RDBMS.Models
 {
- 
-    public class RDBMSMappingConfigModel: ContentPart
+
+    public class RDBMSMappingConfig : ContentPart
     {
         public TextField ConfigName { get; set; }
         public string ContentTypeName { get; set; }
         public SyncMappingDeriction SyncMappingDeriction { get; set; }
         public string ConnectionConfigId { get; set; }
         public string TargetTable { get; set; }
-        public DbObjectType DbObjectType { get; set; } 
+        public DbObjectType DbObjectType { get; set; }
         public string MappingData { get; set; }
 
         public bool ReadOnly { get; set; }

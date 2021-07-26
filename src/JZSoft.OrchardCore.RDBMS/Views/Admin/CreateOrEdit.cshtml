@@ -1,5 +1,6 @@
-﻿@model RDBMSMappingConfigViewModel
-@inject OrchardCore.ContentManagement.Metadata.IContentDefinitionManager _contentDefinitionManager;
+﻿
+@model RDBMSMappingConfigViewModel
+
 <style asp-name="codemirror"></style>
 <script asp-name="codemirror" depends-on="admin" at="Foot"></script>
 <script asp-name="codemirror-addon-display-autorefresh" at="Foot"></script>
@@ -13,6 +14,7 @@
 </zone>
 
 <form asp-action="CreateOrEdit" method="post" class="no-multisubmit">
+	<input type="hidden" asp-for="Id" />
 	<div class="row">
 		<div class="form-group col-md-4" asp-validation-class-for="ConfigName">
 			<label asp-for="ConfigName">@T["Configuration Name"]</label>
@@ -51,7 +53,7 @@
 				<option value="SQLCommand">SQLCommand</option>
 			</select>
 		</div>
-	</div> 
+	</div>
 	<div class="form-group">
 		<label asp-for="TargetTable">@T["Target"]</label>
 		<input type="text" asp-for="TargetTable" class="form-control" />
@@ -86,7 +88,7 @@
 				var select = $("#@Html.IdFor(x=>x.ConnectionConfigId)");
 				select.html('')
 				data.forEach(item => {
-					if (item.text) 
+					if (item.text)
 						select.append(`<option value="${item.value}" >${item.text}</option>`)
 				})
 			}

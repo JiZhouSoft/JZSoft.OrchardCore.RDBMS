@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using JZSoft.OrchardCore.RDBMS.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace JZSoft.OrchardCore.RDBMS.ViewModels
 {
     public class RDBMSMappingConfigViewModel
     {
+        public string Id { get; set; }
         public string ConfigName { get; set; }
         public string ContentTypeName { get; set; }
         public SyncMappingDeriction SyncMappingDeriction { get; set; }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using OrchardCore.ContentManagement.Metadata.Records;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,27 +19,27 @@ namespace JZSoft.OrchardCore.RDBMS.ViewModels
         public bool issetuprecipe { get; set; }
         public object[] categories { get; set; }
         public object[] tags { get; set; }
-        public Step[] steps { get; set; }
+        public List<Step> steps { get; set; }
     }
 
     public class Step
     {
         public string name { get; set; }
-        public Contenttype[] ContentTypes { get; set; }
-        public Contentpart[] ContentParts { get; set; }
+        public List<Contenttype> ContentTypes { get; set; }
+        public List<Contentpart> ContentParts { get; set; }
     }
 
     public class Contenttype
     {
         public string Name { get; set; }
         public string DisplayName { get; set; }
-        public Settings Settings { get; set; }
-        public Contenttypepartdefinitionrecord[] ContentTypePartDefinitionRecords { get; set; }
+        public JObject Settings { get; set; }
+        public ContentTypePartDefinitionRecord[] ContentTypePartDefinitionRecords { get; set; }
     }
 
     public class Settings
     {
-        public Contenttypesettings ContentTypeSettings { get; set; } 
+        public Contenttypesettings ContentTypeSettings { get; set; }
     }
 
     public class Contenttypesettings
@@ -49,28 +51,13 @@ namespace JZSoft.OrchardCore.RDBMS.ViewModels
         public bool Securable { get; set; }
     }
 
-    public class Contenttypepartdefinitionrecord
-    {
-        public string PartName { get; set; }
-        public string Name { get; set; }
-        public Settings1 Settings { get; set; }
-    }
 
-    public class Settings1
-    {
-        public Contenttypepartsettings ContentTypePartSettings { get; set; }
-    }
-
-    public class Contenttypepartsettings
-    {
-        public string Position { get; set; }
-    }
 
     public class Contentpart
     {
         public string Name { get; set; }
         public ContentpartSettings Settings { get; set; }
-        public Contentpartfielddefinitionrecord[] ContentPartFieldDefinitionRecords { get; set; }
+        public ContentPartFieldDefinitionRecord[] ContentPartFieldDefinitionRecords { get; set; }
     }
 
     public class ContentpartSettings
@@ -85,25 +72,12 @@ namespace JZSoft.OrchardCore.RDBMS.ViewModels
         public string DefaultPosition { get; set; }
     }
 
-    public class Contentpartfielddefinitionrecord
-    {
-        public string FieldName { get; set; }
-        public string Name { get; set; }
-        public Settings3 Settings { get; set; }
-    }
 
-    public class Settings3
-    {
-        public Contentpartfieldsettings ContentPartFieldSettings { get; set; }
-
-        //public Textfieldpredefinedlisteditorsettings TextFieldPredefinedListEditorSettings { get; set; }
-    }
 
     public class Contentpartfieldsettings
     {
         public string DisplayName { get; set; }
         public string Position { get; set; }
-        //public string Editor { get; set; }
     }
 
 

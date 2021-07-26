@@ -197,8 +197,8 @@
                 "TextFieldPredefinedListEditorSettings": {
                   "Options": [
                     {
-                      "name": "SqlConnection",
-                      "value": "SqlConnection"
+                      "name": "SqlServer",
+                      "value": "SqlServer"
                     },
                     {
                       "name": "Sqlite",
@@ -209,8 +209,8 @@
                       "value": "MySql"
                     },
                     {
-                      "name": "Postgres",
-                      "value": "Postgres"
+                      "name": "PostgreSQL",
+                      "value": "PostgreSQL"
                     }
                   ],
                   "Editor": 1

@@ -19,6 +19,7 @@ namespace JZSoft.OrchardCore.RDBMS.Services
                 nameof(BooleanField),
                 new FieldTypeValuePathDescriptor
                 {
+                    FieldName=nameof(BooleanField),
                     Description = "Boolean field",
                     FieldType = typeof(bool),
                     UnderlyingType = typeof(BooleanField),
@@ -29,6 +30,7 @@ namespace JZSoft.OrchardCore.RDBMS.Services
                 nameof(DateField),
                 new FieldTypeValuePathDescriptor
                 {
+                    FieldName=nameof(DateField),
                     Description = "Date field",
                     FieldType = typeof(DateTime?),
                     UnderlyingType = typeof(DateField),
@@ -40,6 +42,7 @@ namespace JZSoft.OrchardCore.RDBMS.Services
                 new FieldTypeValuePathDescriptor
                 {
                     Description = "Date & time field",
+                    FieldName=nameof(DateTimeField),
                     FieldType = typeof(DateTime?),
                     UnderlyingType = typeof(DateTimeField),
                     FieldAccessor = field => (DateTime?)field.Content.Value
@@ -50,6 +53,7 @@ namespace JZSoft.OrchardCore.RDBMS.Services
                 new FieldTypeValuePathDescriptor
                 {
                     Description = "Numeric field",
+                    FieldName=nameof(NumericField),
                     FieldType = typeof(decimal?),
                     UnderlyingType = typeof(NumericField),
                     FieldAccessor = field => (decimal?)field.Content.Value
@@ -60,6 +64,7 @@ namespace JZSoft.OrchardCore.RDBMS.Services
                 new FieldTypeValuePathDescriptor
                 {
                     Description = "Text field",
+                    FieldName=nameof(TextField),
                     FieldType = typeof(string),
                     UnderlyingType = typeof(TextField),
                     ValuePath="Text",
@@ -70,6 +75,7 @@ namespace JZSoft.OrchardCore.RDBMS.Services
                 nameof(TimeField),
                 new FieldTypeValuePathDescriptor
                 {
+                    FieldName=nameof(TimeField),
                     Description = "Time field",
                     FieldType = typeof(TimeSpan?),
                     UnderlyingType = typeof(TimeField),
@@ -88,12 +94,27 @@ namespace JZSoft.OrchardCore.RDBMS.Services
                 }
             }
         };
+
+        public static Dictionary<Type, FieldTypeValuePathDescriptor> ContentFieldTypehMappings = ContentFieldValuePathMappings.Values.ToDictionary(x => x.FieldType);
+
         public FieldTypeValuePathDescriptor GetField(ContentPartFieldDefinition field)
         {
             if (!ContentFieldValuePathMappings.ContainsKey(field.FieldDefinition.Name)) return null;
             var fieldDescriptor = ContentFieldValuePathMappings[field.FieldDefinition.Name];
             return fieldDescriptor;
         }
+
+        public FieldTypeValuePathDescriptor GetField<T>(T fieldType)
+        {
+            return GetField(fieldType.GetType());
+        }
+        public FieldTypeValuePathDescriptor GetField(Type fieldType)
+        {
+            if (!ContentFieldTypehMappings.ContainsKey(fieldType)) return null;
+            var fieldDescriptor = ContentFieldTypehMappings[fieldType];
+            return fieldDescriptor;
+        }
+
     }
 
 
@@ -101,11 +122,12 @@ namespace JZSoft.OrchardCore.RDBMS.Services
     public class FieldTypeValuePathDescriptor
     {
         public string Description { get; set; }
+        public string FieldName { get; set; }
         public Type FieldType { get; set; }
         public Type UnderlyingType { get; set; }
         public Func<ContentElement, object> FieldAccessor { get; set; }
         public string ValuePath { get; set; } = "Value";
     }
 
-   
+
 }

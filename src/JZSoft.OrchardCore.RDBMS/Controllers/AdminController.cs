@@ -16,7 +16,11 @@ using OrchardCore.Settings;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FreeSql;
 using YesSql;
+using JZSoft.OrchardCore.RDBMS.Models;
+using OrchardCore.ContentManagement.Metadata.Records;
+using OrchardCore.ContentFields.Fields;
 
 namespace OrchardCore.RelationDb.Controllers
 {
@@ -64,15 +68,15 @@ namespace OrchardCore.RelationDb.Controllers
         public async Task<IActionResult> CreateOrEditPost(RDBMSMappingConfigViewModel model)
         {
             ContentItem contentItem;
-            if (string.IsNullOrEmpty(model.ConnectionConfigId))
+            if (string.IsNullOrEmpty(model.Id))
             {
                 contentItem = await _contentManager.NewAsync("RDBMSMappingConfig");
             }
             else
             {
-                contentItem = await _contentManager.GetAsync(model.ConnectionConfigId);
+                contentItem = await _contentManager.GetAsync(model.Id);
             }
-            var dbEntity = contentItem.As<RDBMSMappingConfigModel>();
+            var dbEntity = contentItem.As<RDBMSMappingConfig>();
 
             //     var contentItem = new ContentItem()
             //     {
@@ -89,14 +93,76 @@ namespace OrchardCore.RelationDb.Controllers
         }
 
         [HttpPost, HttpGet]
-        public RecipeModel GenerateRecipe(RDBMSMappingConfigModel configModel)
+        public async Task<RecipeModel> GenerateRecipeAsync(RDBMSMappingConfigViewModel configModel)
         {
-            var recipe = new RecipeModel();
 
+            var connectionObject = await _contentManager.GetAsync(configModel.ConnectionConfigId);
+            IFreeSql freeSql = FreeSqlProviderFactory.GetFreeSql(connectionObject.Content.DatabaseProvider.Text, connectionObject.Content.ConnectionString.Text);
+            using (freeSql)
+            {
+                var recipe = new RecipeModel();
 
+                string sqlStr = string.Empty;
+                switch (configModel.DbObjectType)
+                {
+                    case DbObjectType.Table:
+                    case DbObjectType.View:
+                        sqlStr = $"select * from {configModel.TargetTable}";
+                        break;
+                    case DbObjectType.SQLCommand:
+                        sqlStr = configModel.TargetTable;
+                        break;
+                    default:
+                        break;
+                }
+                var step = new Step();
+                recipe.steps = new List<Step>() { step };
+                step.name = "ContentDefinition";
+                step.ContentTypes = new List<Contenttype>();
+                var contentType = new Contenttype()
+                {
+                    Name = configModel.TargetTable,
+                    DisplayName = configModel.TargetTable,
+                    Settings = JObject.FromObject(new
+                    {
+                        ContentTypeSettings = new
+                        {
+                            Creatable = true,
+                            Listable = true,
+                            Draftable = true,
+                            Versionable = true,
+                            Securable = true
+                        }
+                    })
+                };
+                step.ContentTypes.Add(contentType);
+                contentType.ContentTypePartDefinitionRecords = new ContentTypePartDefinitionRecord[]{ new ContentTypePartDefinitionRecord
+                    {
+                        Name = configModel.TargetTable,
+                        PartName = configModel.TargetTable
+                    }};
 
+                var contentPart = new Contentpart();
+                var recrods = new List<ContentPartFieldDefinitionRecord>();
+                var tb = freeSql.Ado.QuerySingle<object>(sqlStr);
+                foreach (var item in tb.GetType().GetProperties())
+                {
+                    var recrod = new ContentPartFieldDefinitionRecord();
+                    recrod.Name = item.Name;
+                    recrod.Settings = JObject.FromObject(new
+                    {
+                        ContentPartFieldSettings = new { DisplayName = item.Name }
+                    });
+                    var targetFieldType = _contentFieldsValuePathProvider.GetField(item.PropertyType);
+                    recrod.FieldName = targetFieldType.FieldName;
+                    recrods.Add(recrod);
+                }
 
-            return recipe;
+                step.ContentParts.Add(new Contentpart { Name = configModel.TargetTable, ContentPartFieldDefinitionRecords = recrods.ToArray() });
+
+                return recipe;
+            }
+
         }
 
         public async Task<IEnumerable<SelectListItem>> GetAllDbConnecton()
