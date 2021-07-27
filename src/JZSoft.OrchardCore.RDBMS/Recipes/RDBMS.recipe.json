@@ -120,38 +120,7 @@
                 "TextFieldSettings": {},
                 "ContentIndexSettings": {}
               }
-            },
-            {
-              "FieldName": "TextField",
-              "Name": "DbObjectType",
-              "Settings": {
-                "ContentPartFieldSettings": {
-                  "DisplayName": "RDBMS Object Type",
-                  "Editor": "PredefinedList",
-                  "Position": "3"
-                },
-                "TextFieldSettings": {},
-                "TextFieldPredefinedListEditorSettings": {
-                  "Options": [
-                    {
-                      "name": "Table",
-                      "value": "Table"
-                    },
-                    {
-                      "name": "View",
-                      "value": "View"
-                    },
-                    {
-                      "name": "SQLCommand",
-                      "value": "SQLCommand"
-                    }
-                  ],
-                  "Editor": 1,
-                  "DefaultValue": "Table"
-                },
-                "ContentIndexSettings": {}
-              }
-            },
+            }, 
             {
               "FieldName": "BooleanField",
               "Name": "EnableAutoSync",

@@ -16,7 +16,6 @@ namespace JZSoft.OrchardCore.RDBMS.ViewModels
         public SyncMappingDeriction SyncMappingDeriction { get; set; }
         public string ConnectionConfigId { get; set; }
         public string TargetTable { get; set; }
-        public DbObjectType DbObjectType { get; set; }
         public string MappingData { get; set; }
 
         public bool ReadOnly { get; set; }

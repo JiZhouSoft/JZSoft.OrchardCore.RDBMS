@@ -92,7 +92,7 @@ namespace OrchardCore.RelationDb.Controllers
             return View(model);
         }
 
-        [HttpPost, HttpGet]
+     
         public async Task<RecipeModel> GenerateRecipeAsync(RDBMSMappingConfigViewModel configModel)
         {
 
@@ -102,19 +102,6 @@ namespace OrchardCore.RelationDb.Controllers
             {
                 var recipe = new RecipeModel();
 
-                string sqlStr = string.Empty;
-                switch (configModel.DbObjectType)
-                {
-                    case DbObjectType.Table:
-                    case DbObjectType.View:
-                        sqlStr = $"select * from {configModel.TargetTable}";
-                        break;
-                    case DbObjectType.SQLCommand:
-                        sqlStr = configModel.TargetTable;
-                        break;
-                    default:
-                        break;
-                }
                 var step = new Step();
                 recipe.steps = new List<Step>() { step };
                 step.name = "ContentDefinition";
@@ -141,10 +128,9 @@ namespace OrchardCore.RelationDb.Controllers
                         Name = configModel.TargetTable,
                         PartName = configModel.TargetTable
                     }};
-
-                var contentPart = new Contentpart();
-                var recrods = new List<ContentPartFieldDefinitionRecord>();
-                var tb = freeSql.Ado.QuerySingle<object>(sqlStr);
+                 
+                var recrods = new List<ContentPartFieldDefinitionRecord>(); 
+                var tb = freeSql.Select<object>().AsTable((type, oldname) => configModel.TargetTable).Take(1);
                 foreach (var item in tb.GetType().GetProperties())
                 {
                     var recrod = new ContentPartFieldDefinitionRecord();

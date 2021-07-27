@@ -10,15 +10,7 @@ namespace OrchardCore.RelationDb
     {
         public static readonly Permission ManageRelationalDbTypes = new Permission(nameof(ManageRelationalDbTypes), "Manage Relational Database Types");
         public static readonly Permission SyncAllRelationalDbData = new Permission(nameof(SyncAllRelationalDbData), "Synchronization all relational Database");
-
-      
-
-        private readonly IQueryManager _queryManager;
-
-        public Permissions(IQueryManager queryManager)
-        {
-            _queryManager = queryManager;
-        }
+         
 
         public async Task<IEnumerable<Permission>> GetPermissionsAsync()
         {

@@ -7,78 +7,94 @@
 <script asp-name="codemirror-mode-javascript" at="Foot"></script>
 <script asp-name="codemirror-mode-sql" at="Foot"></script>
 <script asp-name="codemirror-addon-hint-sql-hint" at="Foot"></script>
-<script asp-name="vuejs" at="Foot"></script>
-
+@*<script asp-name="vuejs" at="Foot"></script>*@
+<script at="Foot" asp-name="jquery.serializeObject" asp-src="~/JZSoft.OrchardCore.RDBMS/wwwroot/Scripts/jquery.serializeObject.js" debug-src="~/JZSoft.OrchardCore.RDBMS/wwwroot/Scripts/jquery.serializeObject.js" depends-on="jQuery" version="1.0"></script>
 <zone Name="Title">
-	<h1>@RenderTitleSegments(T["Mapping to relational database"])</h1>
+    <h1>@RenderTitleSegments(T["Mapping to relational database"])</h1>
 </zone>
 
 <form asp-action="CreateOrEdit" method="post" class="no-multisubmit">
-	<input type="hidden" asp-for="Id" />
-	<div class="row">
-		<div class="form-group col-md-4" asp-validation-class-for="ConfigName">
-			<label asp-for="ConfigName">@T["Configuration Name"]</label>
-			<input asp-for="ConfigName" class="form-control" type="text" />
+    <input type="hidden" asp-for="Id" />
+    <div class="row">
+        <div class="form-group col-md-4" asp-validation-class-for="ConfigName">
+            <label asp-for="ConfigName">@T["Configuration Name"]</label>
+            <input asp-for="ConfigName" class="form-control" type="text" />
 
-		</div>
-		<div class="form-group col-md-4" asp-validation-class-for="SyncMappingDeriction">
-			<label asp-for="SyncMappingDeriction">@T["Mapping Deriction"]</label>
-			<select asp-for="SyncMappingDeriction" class="form-control">
-				<option value="OrchardCoreToRDBMS">OrchardCore To RDBMS</option>
-				<option value="RDBMSToOrchardCore">RDBMS To OrchardCore</option>
-				<option value="TwoWay">Two Way</option>
-			</select>
-			<span class="hint">@T["Sync mapping deriction."]</span>
-		</div>
-	</div>
+        </div>
+        <div class="form-group col-md-4" asp-validation-class-for="SyncMappingDeriction">
+            <label asp-for="SyncMappingDeriction">@T["Mapping Deriction"]</label>
+            <select asp-for="SyncMappingDeriction" class="form-control">
+                <option value="OrchardCoreToRDBMS">OrchardCore To RDBMS</option>
+                <option value="RDBMSToOrchardCore">RDBMS To OrchardCore</option>
+                <option value="TwoWay">Two Way</option>
+            </select>
+            <span class="hint">@T["Sync mapping deriction."]</span>
+        </div>
+    </div>
 
-	<div class="row">
-		<div class="form-group col-md-4" asp-validation-class-for="ContentTypeName">
-			<label asp-for="ContentTypeName">@T["Content Type"]</label>
-			<select asp-for="ContentTypeName" class="form-control">
-			</select>
-			<span class="hint">@T["Select a content type."]</span>
-		</div>
-		<div class="form-group col-md-4" asp-validation-class-for="ContentTypeName">
+    <div class="row">
+        <div class="form-group col-md-4" asp-validation-class-for="ContentTypeName">
+            <label asp-for="ContentTypeName">@T["Content Type"]</label>
+            <select asp-for="ContentTypeName" class="form-control">
+            </select>
+            <span class="hint">@T["Select a content type."]</span>
+        </div>
+        <div class="form-group col-md-4" asp-validation-class-for="ContentTypeName">
 
-			<label asp-for="ConnectionConfigId">@T["Connection Config"]</label>
-			<select asp-for="ConnectionConfigId" class="form-control"> </select>
-			<span class="hint">@T["Select a database connection config."]</span>
-		</div>
-		<div class="form-group col-md-4" asp-validation-class-for="DbObjectType">
-			<label asp-for="DbObjectType">@T["RDBMS ObjectType"]</label>
-			<select asp-for="DbObjectType" class="form-control">
-				<option value="Table">Table</option>
-				<option value="View">View</option>
-				<option value="SQLCommand">SQLCommand</option>
-			</select>
-		</div>
-	</div>
-	<div class="form-group">
-		<label asp-for="TargetTable">@T["Target"]</label>
-		<input type="text" asp-for="TargetTable" class="form-control" />
-	</div>
+            <label asp-for="ConnectionConfigId">@T["Connection Config"]</label>
+            <select asp-for="ConnectionConfigId" class="form-control"> </select>
+            <span class="hint">@T["Select a database connection config."]</span>
+        </div>
+        @*<div class="form-group col-md-4" asp-validation-class-for="DbObjectType">
+                <label asp-for="DbObjectType">@T["RDBMS ObjectType"]</label>
+                <select asp-for="DbObjectType" class="form-control">
+                    <option value="Table">Table</option>
+                    <option value="View">View</option>
+                </select>
+            </div>*@
+    </div>
+    <div class="form-group">
+        <label asp-for="TargetTable">@T["Target"]</label>
+        <input type="text" asp-for="TargetTable" class="form-control" />
+    </div>
 
-	<div class="form-group">
-		<button class="btn btn-success" type="button" id="btnGet">@T["Generate Mapping"]</button>
-	</div>
+    <div class="form-group">
+        <button class="btn btn-success" type="button" id="btnGetTable">@T["Generate Table Mapping"]</button>
+        <button class="btn btn-success" type="button" id="btnGetType">@T["Generate Type Mapping"]</button>
+    </div>
 
-	<div class="form-group">
-		<label>@T["Type Mapping Result"]</label><br />
-		<textarea asp-for="MappingData" rows="12" class="form-control"></textarea>
+    <div class="form-group">
+        <label>@T["Type Mapping Result"]</label><br />
+        <textarea asp-for="MappingData" rows="12" class="form-control"></textarea>
 
-	</div>
-	<div class="form-group">
-		<button type="submit" id="submit" class="btn btn-primary">@T["Submit"]</button>
-	</div>
+    </div>
+    <div class="form-group">
+        <button type="submit" id="submit" class="btn btn-primary">@T["Submit"]</button>
+    </div>
 </form>
-
-
-
 
 <script at="Foot">
 	var sqlEditor;
 	$(function () {
+
+		$("#btnGetType").click(function () {
+            var fromData= $("form").serializeObject()
+            //console.log(fromData)
+			var url = "@Url.Action("GenerateRecipe", "Admin")";
+			$.ajax({
+				url: url,
+				method: 'POST',
+				data: fromData,
+				success: function (data) {
+					console.log(data);
+					editor.setValue(data);
+				},
+				error: function (error) {
+					alert($('#move-error-message').data("message"));
+				}
+			});
+		})
+
 
 		$.ajax({
 			url: '@Url.Action("getAllDbConnecton")',
@@ -100,7 +116,7 @@
 				console.log(data)
 				var select = $("#@Html.IdFor(x=>x.ContentTypeName)");
 				select.html('')
-				select.append(`<option value="--New ContentType--" >0</option>`)
+                select.append(`<option value="0">--New ContentType--</option>`)
 				data.forEach(item => {
 					if (item.text)
 						select.append(`<option value="${item.value}" >${item.text}</option>`)
@@ -124,6 +140,26 @@
 				if (sqlEditor)
 					sqlEditor.toTextArea()
 			}
+		})
+
+		$("#btnGet").click(function (val) {
+			if ($("#@Html.IdFor(x => x.ContentTypeName)").val() != "0") {
+				var url = "@Url.Action("GenerateMappingData","Admin")";
+				$.ajax({
+					url: url,
+					method: 'GET',
+					data: {
+						typeName: $("#@Html.IdFor(x => x.ContentTypeName)").val()
+					},
+					success: function (data) {
+						console.log(data);
+						editor.setValue(data);
+					},
+					error: function (error) {
+						alert($('#move-error-message').data("message"));
+					}
+				});
+            }
 		})
 
 		$("#btnGet").click(function (val) {

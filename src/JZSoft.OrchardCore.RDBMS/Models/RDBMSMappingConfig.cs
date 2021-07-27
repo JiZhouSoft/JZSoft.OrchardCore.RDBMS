@@ -18,7 +18,6 @@ namespace JZSoft.OrchardCore.RDBMS.Models
         public SyncMappingDeriction SyncMappingDeriction { get; set; }
         public string ConnectionConfigId { get; set; }
         public string TargetTable { get; set; }
-        public DbObjectType DbObjectType { get; set; }
         public string MappingData { get; set; }
 
         public bool ReadOnly { get; set; }
@@ -32,11 +31,5 @@ namespace JZSoft.OrchardCore.RDBMS.Models
         RDBMSToOrchardCore,
         TwoWay
 
-    }
-    public enum DbObjectType
-    {
-        Table,
-        View,
-        SQLCommand
-    }
+    } 
 }
