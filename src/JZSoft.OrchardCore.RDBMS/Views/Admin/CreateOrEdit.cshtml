@@ -8,7 +8,7 @@
 <script asp-name="codemirror-mode-sql" at="Foot"></script>
 <script asp-name="codemirror-addon-hint-sql-hint" at="Foot"></script>
 @*<script asp-name="vuejs" at="Foot"></script>*@
-<script at="Foot" asp-name="jquery.serializeObject" asp-src="~/JZSoft.OrchardCore.RDBMS/wwwroot/Scripts/jquery.serializeObject.js" debug-src="~/JZSoft.OrchardCore.RDBMS/wwwroot/Scripts/jquery.serializeObject.js" depends-on="jQuery" version="1.0"></script>
+<script at="Foot" asp-name="jquery.serializeObject" asp-src="~/JZSoft.OrchardCore.RDBMS/Scripts/jquery.serializeObject.js" debug-src="~/JZSoft.OrchardCore.RDBMS/Scripts/jquery.serializeObject.js" depends-on="jQuery" version="1.0"></script>
 <zone Name="Title">
     <h1>@RenderTitleSegments(T["Mapping to relational database"])</h1>
 </zone>
@@ -78,13 +78,16 @@
 	$(function () {
 
 		$("#btnGetType").click(function () {
-            var fromData= $("form").serializeObject()
+			var fromData = $("form").serializeObject()
             //console.log(fromData)
 			var url = "@Url.Action("GenerateRecipe", "Admin")";
 			$.ajax({
 				url: url,
-				method: 'POST',
-				data: fromData,
+				method: 'GET',
+				data: {
+                    ConnectionConfigId: fromData.ConnectionConfigId,
+                    TargetTable: fromData.TargetTable
+				},
 				success: function (data) {
 					console.log(data);
 					editor.setValue(data);

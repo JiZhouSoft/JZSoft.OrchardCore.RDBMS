@@ -12,6 +12,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JZSoft.OrchardCore.RDBMS", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrchardCore.Cms.Web", "src\OrchardCore.Cms.Web\OrchardCore.Cms.Web.csproj", "{9D2A5E6A-133D-4C70-A337-4D59E541A4AB}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JZSoft.OrchardCore.Amis", "src\JZSoft.OrchardCore.Amis\JZSoft.OrchardCore.Amis.csproj", "{C73DE1EC-885E-46AB-8F4C-7EA67BE0EDA2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,10 @@ Global
 		{9D2A5E6A-133D-4C70-A337-4D59E541A4AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D2A5E6A-133D-4C70-A337-4D59E541A4AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D2A5E6A-133D-4C70-A337-4D59E541A4AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C73DE1EC-885E-46AB-8F4C-7EA67BE0EDA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C73DE1EC-885E-46AB-8F4C-7EA67BE0EDA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C73DE1EC-885E-46AB-8F4C-7EA67BE0EDA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C73DE1EC-885E-46AB-8F4C-7EA67BE0EDA2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

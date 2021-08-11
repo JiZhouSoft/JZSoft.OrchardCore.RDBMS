@@ -192,7 +192,6 @@ nuget.exe
 #exclude node modules
 node_modules/
 
-wwwroot
 **/Localization/**/*.po
 !src/OrchardCore.Modules/**/wwwroot
 !src/OrchardCore.Themes/**/wwwroot

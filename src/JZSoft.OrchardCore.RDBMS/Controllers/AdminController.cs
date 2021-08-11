@@ -92,12 +92,11 @@ namespace OrchardCore.RelationDb.Controllers
             return View(model);
         }
 
-     
-        public async Task<RecipeModel> GenerateRecipeAsync(RDBMSMappingConfigViewModel configModel)
+        public async Task<RecipeModel> GenerateRecipeAsync(string tableName, string connectionConfigId)
         {
 
-            var connectionObject = await _contentManager.GetAsync(configModel.ConnectionConfigId);
-            IFreeSql freeSql = FreeSqlProviderFactory.GetFreeSql(connectionObject.Content.DatabaseProvider.Text, connectionObject.Content.ConnectionString.Text);
+            var connectionObject = await _contentManager.GetAsync(connectionConfigId);
+            IFreeSql freeSql = FreeSqlProviderFactory.GetFreeSql(connectionObject.Content.DbConnectionConfig.ProviderName.Text.Value, connectionObject.Content.DbConnectionConfig.ConnectionString.Text.Value);
             using (freeSql)
             {
                 var recipe = new RecipeModel();
@@ -108,114 +107,122 @@ namespace OrchardCore.RelationDb.Controllers
                 step.ContentTypes = new List<Contenttype>();
                 var contentType = new Contenttype()
                 {
-                    Name = configModel.TargetTable,
-                    DisplayName = configModel.TargetTable,
-                    Settings = JObject.FromObject(new
+                    Name = tableName,
+                    DisplayName = tableName,
+                    Settings = JObject.Parse(@"
+                                            {'ContentTypeSettings': {
+                                                'Creatable': true,
+                                                  'Listable': true,
+                                                  'Draftable': true,
+                                                  'Versionable': true,
+                                                  'Securable': true
+                                            }}")
+
+
+            };
+            step.ContentTypes.Add(contentType);
+            contentType.ContentTypePartDefinitionRecords = new ContentTypePartDefinitionRecord[]{ new ContentTypePartDefinitionRecord
                     {
-                        ContentTypeSettings = new
-                        {
-                            Creatable = true,
-                            Listable = true,
-                            Draftable = true,
-                            Versionable = true,
-                            Securable = true
-                        }
-                    })
-                };
-                step.ContentTypes.Add(contentType);
-                contentType.ContentTypePartDefinitionRecords = new ContentTypePartDefinitionRecord[]{ new ContentTypePartDefinitionRecord
-                    {
-                        Name = configModel.TargetTable,
-                        PartName = configModel.TargetTable
+                        Name = tableName,
+                        PartName =tableName
                     }};
-                 
-                var recrods = new List<ContentPartFieldDefinitionRecord>(); 
-                var tb = freeSql.Select<object>().AsTable((type, oldname) => configModel.TargetTable).Take(1);
-                foreach (var item in tb.GetType().GetProperties())
+
+            var recrods = new List<ContentPartFieldDefinitionRecord>();
+                try
                 {
-                    var recrod = new ContentPartFieldDefinitionRecord();
-                    recrod.Name = item.Name;
-                    recrod.Settings = JObject.FromObject(new
+                    
+                    var tb = freeSql.Select<object>().AsTable((type, oldname) => tableName).First();
+                    foreach (var item in tb.GetType().GetProperties())
                     {
-                        ContentPartFieldSettings = new { DisplayName = item.Name }
-                    });
-                    var targetFieldType = _contentFieldsValuePathProvider.GetField(item.PropertyType);
-                    recrod.FieldName = targetFieldType.FieldName;
-                    recrods.Add(recrod);
+                        var recrod = new ContentPartFieldDefinitionRecord();
+                        recrod.Name = item.Name;
+                        recrod.Settings = JObject.FromObject(new
+                        {
+                            ContentPartFieldSettings = new { DisplayName = item.Name }
+                        });
+                        var targetFieldType = _contentFieldsValuePathProvider.GetField(item.PropertyType);
+                        recrod.FieldName = targetFieldType.FieldName;
+                        recrods.Add(recrod);
+                    }
+
+                    step.ContentParts.Add(new Contentpart { Name = tableName, ContentPartFieldDefinitionRecords = recrods.ToArray() });
+
+                    return recipe;
                 }
-
-                step.ContentParts.Add(new Contentpart { Name = configModel.TargetTable, ContentPartFieldDefinitionRecords = recrods.ToArray() });
-
-                return recipe;
-            }
-
-        }
-
-        public async Task<IEnumerable<SelectListItem>> GetAllDbConnecton()
-        {
-            var connectionSettings = await _session.Query<ContentItem, ContentItemIndex>()
-                                           .Where(x => x.ContentType == "DbConnectionConfig" && (x.Published || x.Latest)).ListAsync();
-            var connectionList = connectionSettings.Select(x => new SelectListItem() { Text = S[x.DisplayText], Value = x.ContentItemId });
-            return connectionList;
-        }
-
-        public IEnumerable<SelectListItem> GetAllTypes()
-        {
-            var allTypes = _contentDefinitionManager.ListTypeDefinitions();
-            var contentTypeslist = allTypes.Select(x => new SelectListItem() { Text = S[x.DisplayName], Value = x.Name });
-            return contentTypeslist;
-        }
-
-
-        /// <summary>
-        /// Get
-        /// </summary>
-        /// <returns></returns>
-        public async Task<object> GetAllConnectionList()
-        {
-            var connectionSettings = await _session.Query<ContentItem, ContentItemIndex>()
-                  .Where(x =>
-                      x.ContentType == "DbConnectionConfig" &&
-                      (x.Published || x.Latest)).ListAsync();
-            return Json(connectionSettings);
-        }
-
-        public async Task<object> TryGetFileds()
-        {
-            var contentItems = await _session.Query<ContentItem, ContentItemIndex>()
-                   .Where(x =>
-                       x.ContentType == "RelationalDbMapping" &&
-                       (x.Published || x.Latest)).ListAsync();
-
-            return null;
-        }
-
-
-        public IActionResult GenerateMappingData(string typeName)
-        {
-            var type = _contentDefinitionManager.LoadTypeDefinition(typeName);
-
-            var part = type.Parts.FirstOrDefault(x => x.Name == type.Name);
-            var partName = part.Name;
-            var partFileds = new List<object>();
-            // This builder only handles parts with fields.
-            foreach (var field in part.PartDefinition.Fields)
-            {
-                var fieldType = _contentFieldsValuePathProvider.GetField(field);
-                if (fieldType != null)
+                catch (System.Exception e)
                 {
-                    partFileds.Add(new
-                    {
-                        name = field.Name,
-                        ocFieldType = field.FieldDefinition.Name,
-                        valuePath = $"{type.Name}.{field.Name}.{fieldType.ValuePath}",
-                        dbField = field.Name
-                    });
-                }
-            }
-            return Json(JArray.FromObject(partFileds).ToString());
 
+                    throw e;
+                }
         }
 
     }
+
+    public async Task<IEnumerable<SelectListItem>> GetAllDbConnecton()
+    {
+        var connectionSettings = await _session.Query<ContentItem, ContentItemIndex>()
+                                       .Where(x => x.ContentType == "DbConnectionConfig" && (x.Published || x.Latest)).ListAsync();
+        var connectionList = connectionSettings.Select(x => new SelectListItem() { Text = S[x.DisplayText], Value = x.ContentItemId });
+        return connectionList;
+    }
+
+    public IEnumerable<SelectListItem> GetAllTypes()
+    {
+        var allTypes = _contentDefinitionManager.ListTypeDefinitions();
+        var contentTypeslist = allTypes.Select(x => new SelectListItem() { Text = S[x.DisplayName], Value = x.Name });
+        return contentTypeslist;
+    }
+
+
+    /// <summary>
+    /// Get
+    /// </summary>
+    /// <returns></returns>
+    public async Task<object> GetAllConnectionList()
+    {
+        var connectionSettings = await _session.Query<ContentItem, ContentItemIndex>()
+              .Where(x =>
+                  x.ContentType == "DbConnectionConfig" &&
+                  (x.Published || x.Latest)).ListAsync();
+        return Json(connectionSettings);
+    }
+
+    public async Task<object> TryGetFileds()
+    {
+        var contentItems = await _session.Query<ContentItem, ContentItemIndex>()
+               .Where(x =>
+                   x.ContentType == "RelationalDbMapping" &&
+                   (x.Published || x.Latest)).ListAsync();
+
+        return null;
+    }
+
+
+    public IActionResult GenerateMappingData(string typeName)
+    {
+        var type = _contentDefinitionManager.LoadTypeDefinition(typeName);
+
+        var part = type.Parts.FirstOrDefault(x => x.Name == type.Name);
+        var partName = part.Name;
+        var partFileds = new List<object>();
+        // This builder only handles parts with fields.
+        foreach (var field in part.PartDefinition.Fields)
+        {
+            var fieldType = _contentFieldsValuePathProvider.GetField(field);
+            if (fieldType != null)
+            {
+                partFileds.Add(new
+                {
+                    name = field.Name,
+                    ocFieldType = field.FieldDefinition.Name,
+                    valuePath = $"{type.Name}.{field.Name}.{fieldType.ValuePath}",
+                    dbField = field.Name
+                });
+            }
+        }
+        return Json(JArray.FromObject(partFileds).ToString());
+
+    }
+
+}
 }
