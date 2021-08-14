@@ -14,6 +14,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrchardCore.Cms.Web", "src\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JZSoft.OrchardCore.Amis", "src\JZSoft.OrchardCore.Amis\JZSoft.OrchardCore.Amis.csproj", "{C73DE1EC-885E-46AB-8F4C-7EA67BE0EDA2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JZSoft.OrchardCore.AmisEditor", "src\JZSoft.OrchardCore.AmisEditor\JZSoft.OrchardCore.AmisEditor.csproj", "{370D2D5B-D853-4AAD-8133-0B67D1D20F0A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{C73DE1EC-885E-46AB-8F4C-7EA67BE0EDA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C73DE1EC-885E-46AB-8F4C-7EA67BE0EDA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C73DE1EC-885E-46AB-8F4C-7EA67BE0EDA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{370D2D5B-D853-4AAD-8133-0B67D1D20F0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{370D2D5B-D853-4AAD-8133-0B67D1D20F0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{370D2D5B-D853-4AAD-8133-0B67D1D20F0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{370D2D5B-D853-4AAD-8133-0B67D1D20F0A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

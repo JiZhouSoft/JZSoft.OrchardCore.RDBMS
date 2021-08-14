@@ -1,0 +1,250 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+		<TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+		<IsPackable>false</IsPackable>
+		<SpaRoot>ClientApp\</SpaRoot>
+		<DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
+		<ApplicationIcon />
+		<OutputType>Library</OutputType>
+		<StartupObject />
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.8" />
+		<PackageReference Include="OrchardCore.Module.Targets" Version="1.0.0-rc2-16382" />
+		<PackageReference Include="OrchardCore.ContentManagement" Version="1.0.0-rc2-16382" />
+		<PackageReference Include="OrchardCore.ContentTypes.Abstractions" Version="1.0.0-rc2-16382" />
+		<PackageReference Include="OrchardCore.DisplayManagement" Version="1.0.0-rc2-16382" />
+		<PackageReference Include="OrchardCore.Navigation.Core" Version="1.1.0-preview-16385" />
+
+	</ItemGroup>
+
+	<ItemGroup>
+		<!-- Don't publish the SPA source files, but do show them in the project files list -->
+		<Compile Remove="ClientApp\dist\**" />
+		<Content Remove="$(SpaRoot)**" />
+		<EmbeddedResource Remove="ClientApp\dist\**" />
+		<None Remove="$(SpaRoot)**" />
+		<None Remove="ClientApp\dist\**" />
+		<None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Program.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="ClientApp\dist\css\app.4eefdf34.css" />
+	  <None Remove="ClientApp\dist\css\chunk-2ea5b89e.9448b384.css" />
+	  <None Remove="ClientApp\dist\css\chunk-3faa7392.f6ab20d2.css" />
+	  <None Remove="ClientApp\dist\css\chunk-aa6772d2.82a66062.css" />
+	  <None Remove="ClientApp\dist\css\chunk-vendors.317ccaa5.css" />
+	  <None Remove="ClientApp\dist\favicon.ico" />
+	  <None Remove="ClientApp\dist\fonts\codicon.b13daaad.ttf" />
+	  <None Remove="ClientApp\dist\index.html" />
+	  <None Remove="ClientApp\dist\js\about.5748e094.js" />
+	  <None Remove="ClientApp\dist\js\about.5748e094.js.map" />
+	  <None Remove="ClientApp\dist\js\app.5fc7da50.js" />
+	  <None Remove="ClientApp\dist\js\app.5fc7da50.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-07e0242b.7b07bd71.js" />
+	  <None Remove="ClientApp\dist\js\chunk-07e0242b.7b07bd71.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-0b65ffb6.1413b61f.js" />
+	  <None Remove="ClientApp\dist\js\chunk-0b65ffb6.1413b61f.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-1e2736cd.299f077b.js" />
+	  <None Remove="ClientApp\dist\js\chunk-1e2736cd.299f077b.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-23b9da30.6fda8c7f.js" />
+	  <None Remove="ClientApp\dist\js\chunk-23b9da30.6fda8c7f.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0a3196.ac76455f.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0a3196.ac76455f.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0a3577.e4c7d745.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0a3577.e4c7d745.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0a40c8.b90f6f16.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0a40c8.b90f6f16.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0a43df.7b924189.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0a43df.7b924189.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0aa90c.97db0a26.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0aa90c.97db0a26.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0aab07.93872fbd.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0aab07.93872fbd.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0ab05b.0105a9b9.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0ab05b.0105a9b9.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0ae937.add2e024.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0ae937.add2e024.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0aeb45.366f3359.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0aeb45.366f3359.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0af08c.8409d7ec.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0af08c.8409d7ec.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0afa49.1b4847d6.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0afa49.1b4847d6.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0b2762.1205fa2b.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0b2762.1205fa2b.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0b6187.eb214702.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0b6187.eb214702.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0ba136.f59a8616.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0ba136.f59a8616.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0ba1e2.7eed0643.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0ba1e2.7eed0643.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0bb267.2bdef667.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0bb267.2bdef667.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0bcec1.1c097dde.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0bcec1.1c097dde.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0bdf38.c3fd9eb4.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0bdf38.c3fd9eb4.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0bff92.eb4c4f52.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0bff92.eb4c4f52.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0c0494.db11ad0a.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0c0494.db11ad0a.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0c0a09.67a9cb50.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0c0a09.67a9cb50.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0c4313.9ca5d428.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0c4313.9ca5d428.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0c46d1.026b4980.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0c46d1.026b4980.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0c4a95.cad79adc.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0c4a95.cad79adc.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0c512b.dfb41034.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0c512b.dfb41034.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0c86e3.0f2f2cf9.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0c86e3.0f2f2cf9.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0c8f4c.c86a97dc.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0c8f4c.c86a97dc.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0cf16e.e0070075.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0cf16e.e0070075.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0d056d.4d1875b4.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0d056d.4d1875b4.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0d0645.5979a895.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0d0645.5979a895.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0d2f22.a4a27759.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0d2f22.a4a27759.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0d61fd.e52db53a.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0d61fd.e52db53a.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0d7e63.98f20c0f.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0d7e63.98f20c0f.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0dda4e.a170cd4e.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0dda4e.a170cd4e.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0de971.60292295.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0de971.60292295.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0e1b57.f50ae005.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0e1b57.f50ae005.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0e1fbe.33abc889.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0e1fbe.33abc889.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0e4fe5.f27fbec4.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0e4fe5.f27fbec4.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0e542a.d1b57c51.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0e542a.d1b57c51.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0e57ec.eb7e1a23.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0e57ec.eb7e1a23.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0e6553.db36a34b.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0e6553.db36a34b.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0e6c86.0756d6e7.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0e6c86.0756d6e7.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0ea098.d79c9fb5.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0ea098.d79c9fb5.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0f0a11.04bb5267.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d0f0a11.04bb5267.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d208ac5.195bead0.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d208ac5.195bead0.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d209408.5577515e.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d209408.5577515e.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d20f745.6dc24828.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d20f745.6dc24828.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d20ff23.02120760.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d20ff23.02120760.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d2138c7.16c7b1b1.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d2138c7.16c7b1b1.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d216f3b.af552ea1.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d216f3b.af552ea1.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d217e5b.9a0a59f0.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d217e5b.9a0a59f0.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d21b84a.50291dbe.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d21b84a.50291dbe.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d21dcd2.bb79e121.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d21dcd2.bb79e121.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d21f327.82f7c028.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d21f327.82f7c028.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d2214b3.ac7ce9af.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d2214b3.ac7ce9af.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d221799.31949d6c.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d221799.31949d6c.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d221814.8d7d7f0a.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d221814.8d7d7f0a.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d22502a.1bea11cf.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d22502a.1bea11cf.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d226775.fbae0f09.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d226775.fbae0f09.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d2268cd.00dd763e.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d2268cd.00dd763e.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d229411.5a925c90.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d229411.5a925c90.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d2295e9.8185de1b.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d2295e9.8185de1b.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d22c171.59a6641e.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d22c171.59a6641e.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d22c2b8.6aebcb67.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d22c2b8.6aebcb67.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d22ca58.42cda58f.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d22ca58.42cda58f.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d2311f7.c2bf8fcd.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d2311f7.c2bf8fcd.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d237ee7.b5906293.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d237ee7.b5906293.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2d238465.9676ecbb.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2d238465.9676ecbb.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-2ea5b89e.b10f4f82.js" />
+	  <None Remove="ClientApp\dist\js\chunk-2ea5b89e.b10f4f82.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-3faa7392.bfa6793d.js" />
+	  <None Remove="ClientApp\dist\js\chunk-3faa7392.bfa6793d.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-5be2c7b7.c56ca327.js" />
+	  <None Remove="ClientApp\dist\js\chunk-5be2c7b7.c56ca327.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-691b86d7.8c6037ba.js" />
+	  <None Remove="ClientApp\dist\js\chunk-691b86d7.8c6037ba.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-744cc465.d9d88fd7.js" />
+	  <None Remove="ClientApp\dist\js\chunk-744cc465.d9d88fd7.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-74b6381b.a7f487c1.js" />
+	  <None Remove="ClientApp\dist\js\chunk-74b6381b.a7f487c1.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-7532b3ea.6498350c.js" />
+	  <None Remove="ClientApp\dist\js\chunk-7532b3ea.6498350c.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-771262e0.8c334f71.js" />
+	  <None Remove="ClientApp\dist\js\chunk-771262e0.8c334f71.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-77212c7d.aa31fa4f.js" />
+	  <None Remove="ClientApp\dist\js\chunk-77212c7d.aa31fa4f.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-aa6772d2.f33941c7.js" />
+	  <None Remove="ClientApp\dist\js\chunk-aa6772d2.f33941c7.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-e13e4362.475d5ed5.js" />
+	  <None Remove="ClientApp\dist\js\chunk-e13e4362.475d5ed5.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-ed6ff726.27d73178.js" />
+	  <None Remove="ClientApp\dist\js\chunk-ed6ff726.27d73178.js.map" />
+	  <None Remove="ClientApp\dist\js\chunk-vendors.218ecc4e.js" />
+	  <None Remove="ClientApp\dist\js\chunk-vendors.218ecc4e.js.map" />
+	</ItemGroup>
+
+	<Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
+		<!-- Ensure Node.js is installed -->
+		<Exec Command="node --version" ContinueOnError="true">
+			<Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+		</Exec>
+		<Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
+		<Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
+		<Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+	</Target>
+
+	<Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+		<!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
+		<Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
+
+		<!-- Include the newly-built files in the publish output -->
+		<ItemGroup>
+			<DistFiles Include="$(SpaRoot)build\**; $(SpaRoot)build-ssr\**" />
+			<ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+				<RelativePath>%(DistFiles.Identity)</RelativePath>
+				<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+				<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+			</ResolvedFileToPublish>
+		</ItemGroup>
+	</Target>
+
+</Project>

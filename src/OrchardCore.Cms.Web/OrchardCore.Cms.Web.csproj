@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\JZSoft.OrchardCore.Amis\JZSoft.OrchardCore.Amis.csproj" />
     <ProjectReference Include="..\JZSoft.OrchardCore.RDBMS\JZSoft.OrchardCore.RDBMS.csproj" />
   </ItemGroup>
 </Project>
