@@ -1,0 +1,40 @@
+
+
+@{
+    Layout = null;
+    var resourceRoot = "/JZSoft.OrchardCore.Amis/amis-editor";
+}
+<zone Name="Title">
+    <h1>AMIS 编辑器</h1>
+</zone>
+
+<style at="Head" rel="stylesheet" asp-src="@(resourceRoot)/node_modules/@@fortawesome/fontawesome-free/css/all.css" version="1.0"></style>
+<style at="Head" rel="stylesheet" asp-src="@(resourceRoot)/node_modules/@@fortawesome/fontawesome-free/css/v4-shims.css" version="1.0"></style>
+<style at="Head" rel="stylesheet" asp-src="@(resourceRoot)/node_modules/react-datetime/css/react-datetime.css" version="1.0"></style>
+<style at="Head" rel="stylesheet" asp-src="@(resourceRoot)/node_modules/cropperjs/dist/cropper.css" version="1.0"></style>
+<style at="Head" rel="stylesheet" asp-src="@(resourceRoot)/node_modules/video-react/dist/video-react.css" version="1.0"></style>
+<style at="Head" rel="stylesheet" asp-src="@(resourceRoot)/node_modules/tinymce/skins/ui/oxide/skin.css"></style>
+<style at="Head" rel="stylesheet" asp-src="@(resourceRoot)/node_modules/froala-editor/css/froala_style.min.css"></style>
+<style at="Head" rel="stylesheet" asp-src="@(resourceRoot)/node_modules/froala-editor/css/froala_editor.pkgd.min.css"></style>
+<style at="Head" rel="stylesheet" asp-src="@(resourceRoot)/node_modules/amis/lib/themes/default.css"></style>
+<style at="Head" rel="stylesheet" asp-src="@(resourceRoot)/node_modules/amis-editor/dist/style.css"></style>
+<style at="Head" rel="stylesheet" asp-src="@(resourceRoot)/scss/style.css"></style>
+
+<div id="amisRoot" class="app-wrapper"></div>
+
+<script at="Foot" asp-src="~/JZSoft.OrchardCore.Amis/mod.js"></script>
+<script at="Foot" type="text/javascript" asp-src="@(resourceRoot)/pkg/index.html_map.js" version="1.0"></script>
+<script at="Foot" type="text/javascript" asp-src="@(resourceRoot)/pkg/npm.js" version="1.0"></script>
+<script at="Foot" type="text/javascript" asp-src="@(resourceRoot)/store/Page.js" version="1.0"></script>
+<script at="Foot" type="text/javascript" asp-src="@(resourceRoot)/store/index.js" version="1.0"></script>
+<script at="Foot" type="text/javascript" asp-src="@(resourceRoot)/route/index.js" version="1.0"></script>
+<script at="Foot" type="text/javascript" asp-src="@(resourceRoot)/App.js" version="1.0"></script>
+<script at="Foot" type="text/javascript" asp-src="@(resourceRoot)/index.js" version="1.0"></script>
+<script at="Foot" type="text/javascript">
+
+    /* @@require index.tsx 标记为同步依赖，提前加载 */
+    amis.require(['index.tsx'], function (app) {
+        var initialState = {};
+        app.bootstrap(document.getElementById('amisRoot'), initialState);
+    });
+</script>
