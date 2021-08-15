@@ -209,3 +209,4 @@ src/Templates/**/content/**/[Oo]bj/
 # BenchmarkDotNet artifacts
 BenchmarkDotNet.Artifacts
 
+/src/JZSoft.OrchardCore.Amis/wwwroot/amis-editor/package-lock.json
